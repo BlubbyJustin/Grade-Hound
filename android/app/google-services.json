@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "199010530608",
+    "project_id": "gradetrackerauth",
+    "storage_bucket": "gradetrackerauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199010530608:android:ee6a873f6ca1a08649c4f5",
+        "android_client_info": {
+          "package_name": "com.example.first_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199010530608-d7do5n8pb1um9u2mnulci455mka8ct7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK8t27KS82KreBKWKcsCssgiIk73jGGVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199010530608-d7do5n8pb1um9u2mnulci455mka8ct7t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199010530608-jn2rmv3ohv96v8672ep785irc4hnfbfv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firstApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
