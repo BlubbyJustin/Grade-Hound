@@ -116,10 +116,13 @@ class _SignUpPageState extends State<SignUpPage> {
             child: CupertinoNavigationBar(
               backgroundColor: Color.fromRGBO(66, 66, 66, 1),
               leading: GestureDetector(
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  size: 25,
-                  color: Color.fromRGBO(216, 194, 251, 1),
+                child: Align(
+                  alignment: Alignment(-0.9, 0),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    size: 25,
+                    color: Color.fromRGBO(216, 194, 251, 1),
+                  ),
                 ),
                 onTap: () {
                   Navigator.pop(context);

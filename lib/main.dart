@@ -58,7 +58,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           }
         },
         child: MaterialApp(
-          title: "Power Gradebook",
+          debugShowCheckedModeBanner: false,
+          title: "Grade-Hound",
           theme: ThemeData(
             fontFamily: 'Inter',
             textTheme: ThemeData.light().textTheme.copyWith(

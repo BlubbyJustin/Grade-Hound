@@ -9,6 +9,8 @@ class AuthService {
   final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth.instance;
   String loginErrorCode = '';
   String signupErrorCode = '';
+  String userEmail = '';
+  String pass = '';
 
   theUser? userFromFirebase(auth.User? user) {
     if (user == null) {
@@ -27,6 +29,8 @@ class AuthService {
         email: email,
         password: password,
       );
+      userEmail = email;
+      pass = password;
       loginErrorCode = '';
       return userFromFirebase(credential.user);
     } on FirebaseAuthException catch (e) {
@@ -45,6 +49,12 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       signupErrorCode = e.code;
     }
+  }
+
+  Future deleteUser() async {
+    signIn(userEmail, pass);
+    User user = await firebaseAuth.currentUser!;
+    user.delete();
   }
 
   Future<void> signOut() async {

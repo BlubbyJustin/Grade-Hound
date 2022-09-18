@@ -16,8 +16,10 @@ class Wrapper extends StatelessWidget {
             final theUser? user = snapshot.data;
             return user == null
                 ? LoginPage()
-                : HomePage(user
-                    .uid); //(user.uid); //maybe replace login page with a circular turny butthole page
+                : HomePage(
+                    user.uid,
+                    user.email.toString(),
+                  ); //(user.uid); //maybe replace login page with a circular turny butthole page
           } else {
             return Scaffold(
               body: Center(

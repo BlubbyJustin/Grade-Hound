@@ -922,13 +922,16 @@ class _ClassPageState extends State<ClassPage> {
         child: Container(
           height: mediaQuery.size.height * 0.13,
           child: CupertinoNavigationBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              iconSize: 25,
-              color: Color.fromRGBO(216, 194, 251, 1),
-              onPressed: () {
-                Navigator.pop(context, currentGrade);
-              },
+            leading: Align(
+              alignment: Alignment(-1.15, 0),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                iconSize: 25,
+                color: Color.fromRGBO(216, 194, 251, 1),
+                onPressed: () {
+                  Navigator.pop(context, currentGrade);
+                },
+              ),
             ),
             backgroundColor: Color.fromRGBO(66, 66, 66, 1),
             middle: Text(
@@ -1077,7 +1080,7 @@ class _ClassPageState extends State<ClassPage> {
                             child: ListView(
                             children: [
                               Container(
-                                height: mediaQuery.size.height * 0.25,
+                                height: mediaQuery.size.height * 0.20,
                               ),
                               Center(
                                 child: CircularProgressIndicator(

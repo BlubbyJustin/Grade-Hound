@@ -21,9 +21,9 @@ import 'GpaPage.dart';
 class HomePage extends StatefulWidget {
   static const pageRoute = '/class_page';
   final String uid;
+  final String email;
 
-  HomePage(this.uid); //re make the tables and start the fuck over
-
+  HomePage(this.uid, this.email);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -168,6 +168,19 @@ class _HomePageState extends State<HomePage> {
       }
     }
     setState(() {});
+  }
+
+  void deleteUser() async {
+    var url = Uri.parse('$webService/deleteUser');
+    var response = await http.post(
+      url,
+      body: json.encode({
+        'userId': widget.uid,
+      }),
+    );
+    print('gone from sql');
+    AuthService().deleteUser();
+    print('gone from firebase');
   }
 
   Future openDialog() {
@@ -335,6 +348,81 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future openDeleteAccountWarningDialog(BuildContext biggerContext) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Color.fromRGBO(66, 66, 66, 1),
+        title: Center(
+          child: Text(
+            'Delete Account',
+            style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 1),
+            ),
+          ),
+        ),
+        content: Container(
+          height: 40,
+          child: Text(
+            "Are you sure you want to Delete your account? All user data will be lost.",
+            style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 1),
+              fontSize: 14,
+            ),
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.spaceBetween,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 17, bottom: 6),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color.fromRGBO(216, 194, 251, 1),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                deleteUser();
+              },
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: Color.fromRGBO(66, 66, 66, 1),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 17, bottom: 6),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color.fromRGBO(216, 194, 251, 1),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: Color.fromRGBO(66, 66, 66, 1),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isFirstRound) {
@@ -345,6 +433,14 @@ class _HomePageState extends State<HomePage> {
 
     final authService = Provider.of<AuthService>(context);
 
+    showMenu() {
+      showBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container();
+          });
+    }
+
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -354,26 +450,147 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           height: mediaQuery.size.height * 0.13,
           child: CupertinoNavigationBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Color.fromRGBO(66, 66, 66, 1),
             middle: Text(
               name,
               style: Theme.of(context).textTheme.headline2,
             ),
-            trailing: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: GestureDetector(
-                child: Image.asset(
-                  'Assets/images/logoutButton.png',
-                  scale: 2.5,
+            trailing: Builder(
+              builder: (context) => GestureDetector(
+                child: Icon(
+                  Icons.menu,
+                  color: Color.fromRGBO(255, 255, 255, 1),
                 ),
                 onTap: () {
-                  openlogoutWarningDialog(context);
+                  Scaffold.of(context).openEndDrawer();
                 },
               ),
             ),
             border: Border(
               bottom: BorderSide(color: Colors.transparent),
             ),
+          ),
+        ),
+      ),
+      endDrawer: Container(
+        width: mediaQuery.size.width * 1,
+        child: Drawer(
+          backgroundColor: Color.fromRGBO(66, 66, 66, 1),
+          child: Column(
+            children: [
+              Container(
+                height: mediaQuery.size.height * 0.12,
+                child: CupertinoNavigationBar(
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Color.fromRGBO(216, 194, 251, 1),
+                  leading: Align(
+                    alignment: Alignment(-1.25, 0),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      iconSize: 25,
+                      color: Color.fromRGBO(66, 66, 66, 1),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  middle: Text(
+                    'Menu',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromRGBO(66, 66, 66, 1),
+                    ),
+                  ),
+                  border: Border(
+                    bottom: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+              ),
+              InkWell(
+                child: Container(
+                  height: 62.5,
+                  width: mediaQuery.size.width,
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: RotatedBox(
+                          quarterTurns: 2,
+                          child: Image.asset(
+                            'Assets/images/logoutButton.png',
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 15, top: 10, bottom: 10),
+                        child: Text(
+                          'Log Out',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  openlogoutWarningDialog(context);
+                },
+              ),
+              InkWell(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  height: 62.5,
+                  width: mediaQuery.size.width,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey, width: 1),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Image.asset(
+                          'Assets/images/trashButton.png',
+                          height: 25,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 12, right: 15, top: 10, bottom: 10),
+                        child: Text(
+                          'Delete Account',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  openDeleteAccountWarningDialog(context);
+                },
+              ),
+            ],
           ),
         ),
       ),
