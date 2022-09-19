@@ -233,15 +233,62 @@ class _ClassPageState extends State<ClassPage> {
     );
 
     //re-init to show all assignments
-    listOfAssignments.length = 0;
+    setState(() {
+      resetFilter = true;
+      resetSort = true;
+    });
     typesList.length = 0;
     filteredTypeList.length = 0;
     typeNameList.length = 0;
     filteredTypeNameList.length = 0;
-    initPage();
+    typeBubblList.length = 0;
+
+    var url2 = Uri.parse('$webService/initTypesList');
+    await http.post(url2, body: json.encode({'classId': classId}));
+    var response2 = await http.get(url2);
+    var decoded2 = json.decode(response2.body);
+    if (decoded2.length != 0) {
+      for (var row in decoded2) {
+        typesList.add([row['typeName'], row['weight']]);
+        filteredTypeList.add([row['typeName'], row['weight']]);
+      }
+      for (var type in typesList) {
+        typeNameList.add(type[0]);
+        filteredTypeNameList.add(type[0]);
+      }
+    }
+
+    print(typesList.length);
+    print(filteredTypeList.length);
+    print(typeNameList.length);
+    print(typeBubblList.length);
+
+    listOfAssignments.length = 0;
+    var url3 = Uri.parse('$webService/fetchAssignmentData');
+    await http.post(url3, body: json.encode({'classId': classId}));
+    var response3 = await http.get(url3);
+    var decoded3 = json.decode(response3.body);
+    if (decoded3.length != 0) {
+      for (var row in decoded3) {
+        DateTime date = DateTime.parse(row['date']);
+        String formattedDate = DateFormat('yyyy-MM-dd').format(date).toString();
+        listOfAssignments.add(
+          new AssCard(
+              row['assignmentId'],
+              row['classId'],
+              row['type'],
+              row['name'],
+              row['grade'],
+              formattedDate,
+              row['comment'],
+              deleteAssignment,
+              editAssignmentComment,
+              colorList[typeNameList.indexOf(row['type'])]),
+        );
+      }
+    }
     setState(() {
-      resetFilter = true;
-      resetSort = true;
+      assignmentList = AssList(listOfAssignments);
     });
     recalcAverage();
   }
@@ -285,10 +332,11 @@ class _ClassPageState extends State<ClassPage> {
     filteredTypeList.length = 0;
     typeNameList.length = 0;
     filteredTypeNameList.length = 0;
+    typeBubblList.length = 0;
+
     var response = await http.get(url);
     var decoded = json.decode(response.body);
     setState(() {
-      typeBubblList.length = 0;
       if (decoded.length != 0) {
         for (var row in decoded) {
           typesList.add([row['typeName'], row['weight']]);
@@ -300,33 +348,33 @@ class _ClassPageState extends State<ClassPage> {
         }
       }
     });
-    listOfAssignments.length = 0;
-    var url2 = Uri.parse('$webService/fetchAssignmentData');
-    await http.post(url2, body: json.encode({'classId': classId}));
-    var response2 = await http.get(url2);
-    var decoded2 = json.decode(response2.body);
-    if (decoded2.length != 0) {
-      for (var row in decoded2) {
-        DateTime date = DateTime.parse(row['date']);
-        String formattedDate = DateFormat('yyyy-MM-dd').format(date).toString();
-        listOfAssignments.add(
-          new AssCard(
-              row['assignmentId'],
-              row['classId'],
-              row['type'],
-              row['name'],
-              row['grade'],
-              formattedDate,
-              row['comment'],
-              deleteAssignment,
-              editAssignmentComment,
-              colorList[typeNameList.indexOf(row['type'])]),
-        );
-      }
-    }
-    setState(() {
-      assignmentList = AssList(listOfAssignments);
-    });
+    // listOfAssignments.length = 0;
+    // var url2 = Uri.parse('$webService/fetchAssignmentData');
+    // await http.post(url2, body: json.encode({'classId': classId}));
+    // var response2 = await http.get(url2);
+    // var decoded2 = json.decode(response2.body);
+    // if (decoded2.length != 0) {
+    //   for (var row in decoded2) {
+    //     DateTime date = DateTime.parse(row['date']);
+    //     String formattedDate = DateFormat('yyyy-MM-dd').format(date).toString();
+    //     listOfAssignments.add(
+    //       new AssCard(
+    //           row['assignmentId'],
+    //           row['classId'],
+    //           row['type'],
+    //           row['name'],
+    //           row['grade'],
+    //           formattedDate,
+    //           row['comment'],
+    //           deleteAssignment,
+    //           editAssignmentComment,
+    //           colorList[typeNameList.indexOf(row['type'])]),
+    //     );
+    //   }
+    // }
+    // setState(() {
+    //   assignmentList = AssList(listOfAssignments);
+    // });
   }
 
   void changeTypeName(String newName, String oldName) async {
@@ -351,10 +399,11 @@ class _ClassPageState extends State<ClassPage> {
     filteredTypeList.length = 0;
     typeNameList.length = 0;
     filteredTypeNameList.length = 0;
+    typeBubblList.length = 0;
+
     var response = await http.get(url);
     var decoded = json.decode(response.body);
     setState(() {
-      typeBubblList.length = 0;
       if (decoded.length != 0) {
         for (var row in decoded) {
           typesList.add([row['typeName'], row['weight']]);
@@ -452,10 +501,11 @@ class _ClassPageState extends State<ClassPage> {
     filteredTypeList.length = 0;
     typeNameList.length = 0;
     filteredTypeNameList.length = 0;
+    typeBubblList.length = 0;
+
     var response = await http.get(url);
     var decoded = json.decode(response.body);
     setState(() {
-      typeBubblList.length = 0;
       if (decoded.length != 0) {
         for (var row in decoded) {
           typesList.add([row['typeName'], row['weight']]);
