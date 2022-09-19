@@ -443,6 +443,7 @@ class _ClassPageState extends State<ClassPage> {
     setState(() {
       assignmentList = AssList(listOfAssignments);
     });
+    sortAssignmentListNewToOld();
   }
 
   void changeTypeWeight() async {
@@ -545,6 +546,7 @@ class _ClassPageState extends State<ClassPage> {
     setState(() {
       assignmentList = AssList(listOfAssignments);
     });
+    sortAssignmentListNewToOld();
   }
 
   void filterAssignmentList(List<String> types, String startDate,
