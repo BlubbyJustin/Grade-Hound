@@ -369,7 +369,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gradeTracker.jhuang.2022;
 				PRODUCT_NAME = "Grade-Hound";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -502,7 +502,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gradeTracker.jhuang.2022;
 				PRODUCT_NAME = "Grade-Hound";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -528,7 +528,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gradeTracker.jhuang.2022;
 				PRODUCT_NAME = "Grade-Hound";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

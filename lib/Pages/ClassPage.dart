@@ -290,6 +290,7 @@ class _ClassPageState extends State<ClassPage> {
     setState(() {
       assignmentList = AssList(listOfAssignments);
     });
+    sortAssignmentListNewToOld();
     recalcAverage();
   }
 
